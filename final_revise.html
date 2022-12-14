@@ -14464,10 +14464,6 @@ a.anchor-link {
   display: none;
 }
 
-.highlight  {
-  margin: 0.4em;
-}
-
 /* Input area styling */
 .jp-InputArea {
   overflow: hidden;
@@ -14477,9 +14473,26 @@ a.anchor-link {
   overflow: hidden;
 }
 
-.CodeMirror pre {
+.CodeMirror.cm-s-jupyter .highlight pre {
+/* weird, but --jp-code-padding defined to be 5px but 4px horizontal padding is hardcoded for pre.CodeMirror-line */
+  padding: var(--jp-code-padding) 4px;
   margin: 0;
-  padding: 0;
+
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+  color: inherit;
+
+}
+
+.jp-OutputArea-output pre {
+  line-height: inherit;
+  font-family: inherit;
+}
+
+.jp-RenderedText pre {
+  color: var(--jp-content-font-color1);
+  font-size: var(--jp-code-font-size);
 }
 
 /* Using table instead of flexbox so that we can use break-inside property */
@@ -14523,6 +14536,10 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 /* Hiding the collapser by default */
 .jp-Collapser {
   display: none;
+}
+
+@page {
+    margin: 0.5in; /* Margin for each printed piece of paper */
 }
 
 @media print {
@@ -14659,7 +14676,7 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 <span class="kn">from</span> <span class="nn">smart_mobility_utilities.children</span> <span class="kn">import</span> <span class="o">*</span>
 
 <span class="kn">import</span> <span class="nn">warnings</span>
-<span class="n">warnings</span><span class="o">.</span><span class="n">simplefilter</span><span class="p">(</span><span class="n">action</span><span class="o">=</span><span class="s1">'ignore'</span><span class="p">,</span> <span class="n">category</span><span class="o">=</span><span class="ne">FutureWarning</span><span class="p">)</span>
+<span class="n">warnings</span><span class="o">.</span><span class="n">simplefilter</span><span class="p">(</span><span class="n">action</span><span class="o">=</span><span class="s1">&#39;ignore&#39;</span><span class="p">,</span> <span class="n">category</span><span class="o">=</span><span class="ne">FutureWarning</span><span class="p">)</span>
 
 <span class="c1"># A fixed degree precision of E/W at 45N/S with 0.0001 degree.</span>
 <span class="n">CORD_TR</span> <span class="o">=</span> <span class="mf">7.87</span>
@@ -14697,10 +14714,10 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Retrieve traffic flow data for preprocessing.</span>
-<span class="n">df_traffic_flow</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">"traffic-flow-2020.csv"</span><span class="p">)</span>
+<span class="n">df_traffic_flow</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;traffic-flow-2020.csv&quot;</span><span class="p">)</span>
 
 <span class="c1"># Retrieve node and edge data. </span>
-<span class="c1"># graph = osmnx.graph_from_address("Toronto", dist=3000, clean_periphery=True, simplify=True, network_type='drive_service')</span>
+<span class="c1"># graph = osmnx.graph_from_address(&quot;Toronto&quot;, dist=3000, clean_periphery=True, simplify=True, network_type=&#39;drive_service&#39;)</span>
 <span class="n">graph</span> <span class="o">=</span> <span class="n">osmnx</span><span class="o">.</span><span class="n">graph_from_point</span><span class="p">([</span><span class="mf">43.66415636619444</span><span class="p">,</span> <span class="o">-</span><span class="mf">79.43023950001896</span><span class="p">],</span> <span class="n">dist</span> <span class="o">=</span> <span class="mi">1000</span><span class="p">,</span> <span class="n">clean_periphery</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">simplify</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="n">nodes</span><span class="p">,</span> <span class="n">edges</span> <span class="o">=</span> <span class="n">osmnx</span><span class="o">.</span><span class="n">graph_to_gdfs</span><span class="p">(</span><span class="n">graph</span><span class="p">)</span>
 </pre></div>
@@ -14732,9 +14749,7 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 
 
 <div class="jp-OutputArea jp-Cell-outputArea">
-
-<div class="jp-OutputArea-child">
-
+<div class="jp-OutputArea-child jp-OutputArea-executeResult">
     
     <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[3]:</div>
 
@@ -14848,9 +14863,7 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 
 
 <div class="jp-OutputArea jp-Cell-outputArea">
-
-<div class="jp-OutputArea-child">
-
+<div class="jp-OutputArea-child jp-OutputArea-executeResult">
     
     <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[4]:</div>
 
@@ -15029,20 +15042,20 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 <div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[5]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df_traffic_flow</span><span class="p">[</span><span class="s1">'count_date'</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">df_traffic_flow</span><span class="p">[</span><span class="s1">'count_date'</span><span class="p">],</span> <span class="nb">format</span><span class="o">=</span><span class="s1">'%Y-%m-</span><span class="si">%d</span><span class="s1">'</span><span class="p">)</span>
-<span class="n">df_flow</span> <span class="o">=</span> <span class="n">df_traffic_flow</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s1">'location_id'</span><span class="p">])</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
-<span class="c1"># Pedestrian, bike, and scooter don't matter. </span>
-<span class="n">g_flow</span> <span class="o">=</span> <span class="n">df_flow</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">'nx_peds'</span><span class="p">,</span> <span class="s1">'sx_peds'</span><span class="p">,</span> <span class="s1">'ex_peds'</span><span class="p">,</span> <span class="s1">'wx_peds'</span><span class="p">,</span> 
-                              <span class="s1">'nx_bike'</span><span class="p">,</span> <span class="s1">'sx_bike'</span><span class="p">,</span> <span class="s1">'ex_bike'</span><span class="p">,</span> <span class="s1">'wx_bike'</span><span class="p">,</span> 
-                              <span class="s1">'nx_other'</span><span class="p">,</span> <span class="s1">'sx_other'</span><span class="p">,</span> <span class="s1">'ex_other'</span><span class="p">,</span> <span class="s1">'wx_other'</span><span class="p">])</span>
-<span class="n">g_flow</span> <span class="o">=</span> <span class="n">g_flow</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">g_flow</span><span class="p">[</span><span class="s1">'centreline_type'</span><span class="p">]</span> <span class="o">==</span> <span class="mi">2</span><span class="p">]</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df_traffic_flow</span><span class="p">[</span><span class="s1">&#39;count_date&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">df_traffic_flow</span><span class="p">[</span><span class="s1">&#39;count_date&#39;</span><span class="p">],</span> <span class="nb">format</span><span class="o">=</span><span class="s1">&#39;%Y-%m-</span><span class="si">%d</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="n">df_flow</span> <span class="o">=</span> <span class="n">df_traffic_flow</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s1">&#39;location_id&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
+<span class="c1"># Pedestrian, bike, and scooter don&#39;t matter. </span>
+<span class="n">g_flow</span> <span class="o">=</span> <span class="n">df_flow</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;nx_peds&#39;</span><span class="p">,</span> <span class="s1">&#39;sx_peds&#39;</span><span class="p">,</span> <span class="s1">&#39;ex_peds&#39;</span><span class="p">,</span> <span class="s1">&#39;wx_peds&#39;</span><span class="p">,</span> 
+                              <span class="s1">&#39;nx_bike&#39;</span><span class="p">,</span> <span class="s1">&#39;sx_bike&#39;</span><span class="p">,</span> <span class="s1">&#39;ex_bike&#39;</span><span class="p">,</span> <span class="s1">&#39;wx_bike&#39;</span><span class="p">,</span> 
+                              <span class="s1">&#39;nx_other&#39;</span><span class="p">,</span> <span class="s1">&#39;sx_other&#39;</span><span class="p">,</span> <span class="s1">&#39;ex_other&#39;</span><span class="p">,</span> <span class="s1">&#39;wx_other&#39;</span><span class="p">])</span>
+<span class="n">g_flow</span> <span class="o">=</span> <span class="n">g_flow</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">g_flow</span><span class="p">[</span><span class="s1">&#39;centreline_type&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">2</span><span class="p">]</span>
 
 <span class="c1"># Add traffic flow together</span>
 <span class="n">n_previous</span> <span class="o">=</span> <span class="mi">35</span>
-<span class="n">g_flow</span><span class="p">[</span><span class="s2">"total"</span><span class="p">]</span> <span class="o">=</span> <span class="n">g_flow</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span><span class="o">-</span><span class="n">n_previous</span><span class="p">:]</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">g_flow</span><span class="p">[</span><span class="s2">&quot;total&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">g_flow</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span><span class="o">-</span><span class="n">n_previous</span><span class="p">:]</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 
 <span class="c1"># Normalize for reference only, will not be applied to edges. Weight of edges will be calculated individually. </span>
-<span class="n">g_flow</span><span class="p">[</span><span class="s1">'n-total'</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">g_flow</span><span class="p">[</span><span class="s1">'total'</span><span class="p">]</span> <span class="o">-</span> <span class="n">g_flow</span><span class="p">[</span><span class="s1">'total'</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">())</span><span class="o">/</span><span class="p">(</span><span class="n">g_flow</span><span class="p">[</span><span class="s1">'total'</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">()</span> <span class="o">-</span> <span class="n">g_flow</span><span class="p">[</span><span class="s1">'total'</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">())</span>
+<span class="n">g_flow</span><span class="p">[</span><span class="s1">&#39;n-total&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">g_flow</span><span class="p">[</span><span class="s1">&#39;total&#39;</span><span class="p">]</span> <span class="o">-</span> <span class="n">g_flow</span><span class="p">[</span><span class="s1">&#39;total&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">())</span><span class="o">/</span><span class="p">(</span><span class="n">g_flow</span><span class="p">[</span><span class="s1">&#39;total&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">()</span> <span class="o">-</span> <span class="n">g_flow</span><span class="p">[</span><span class="s1">&#39;total&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">())</span>
 
 <span class="n">g_flow</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
 </pre></div>
@@ -15058,9 +15071,7 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 
 
 <div class="jp-OutputArea jp-Cell-outputArea">
-
-<div class="jp-OutputArea-child">
-
+<div class="jp-OutputArea-child jp-OutputArea-executeResult">
     
     <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[5]:</div>
 
@@ -15263,7 +15274,7 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">m</span> <span class="o">=</span> <span class="n">folium</span><span class="o">.</span><span class="n">Map</span><span class="p">(</span><span class="n">location</span><span class="o">=</span><span class="p">[</span><span class="mf">43.662643</span><span class="p">,</span> <span class="o">-</span><span class="mf">79.395689</span><span class="p">],</span> <span class="n">zoom_start</span><span class="o">=</span><span class="mi">13</span><span class="p">)</span>
 <span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">g_flow</span><span class="o">.</span><span class="n">iterrows</span><span class="p">():</span>
-    <span class="n">folium</span><span class="o">.</span><span class="n">Marker</span><span class="p">([</span><span class="n">row</span><span class="p">[</span><span class="s1">'lat'</span><span class="p">],</span> <span class="n">row</span><span class="p">[</span><span class="s1">'lng'</span><span class="p">]],</span> <span class="n">popup</span><span class="o">=</span><span class="n">row</span><span class="p">[</span><span class="s1">'location_id'</span><span class="p">],</span> <span class="n">icon</span> <span class="o">=</span> <span class="n">folium</span><span class="o">.</span><span class="n">Icon</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s1">'red'</span><span class="p">))</span><span class="o">.</span><span class="n">add_to</span><span class="p">(</span><span class="n">m</span><span class="p">)</span>
+    <span class="n">folium</span><span class="o">.</span><span class="n">Marker</span><span class="p">([</span><span class="n">row</span><span class="p">[</span><span class="s1">&#39;lat&#39;</span><span class="p">],</span> <span class="n">row</span><span class="p">[</span><span class="s1">&#39;lng&#39;</span><span class="p">]],</span> <span class="n">popup</span><span class="o">=</span><span class="n">row</span><span class="p">[</span><span class="s1">&#39;location_id&#39;</span><span class="p">],</span> <span class="n">icon</span> <span class="o">=</span> <span class="n">folium</span><span class="o">.</span><span class="n">Icon</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">))</span><span class="o">.</span><span class="n">add_to</span><span class="p">(</span><span class="n">m</span><span class="p">)</span>
 <span class="n">m</span>
 </pre></div>
 
@@ -15278,9 +15289,7 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 
 
 <div class="jp-OutputArea jp-Cell-outputArea">
-
-<div class="jp-OutputArea-child">
-
+<div class="jp-OutputArea-child jp-OutputArea-executeResult">
     
     <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[6]:</div>
 
@@ -63291,7 +63300,7 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 <div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[7]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">edges</span><span class="p">[</span><span class="s1">'traffic_flow'</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.0</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">edges</span><span class="p">[</span><span class="s1">&#39;traffic_flow&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.0</span>
 </pre></div>
 
      </div>
@@ -63324,18 +63333,18 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">find_traffic_flow</span><span class="p">(</span><span class="n">osmid</span><span class="p">,</span> <span class="n">nodes</span><span class="p">,</span> <span class="n">g_flow</span><span class="p">,</span> <span class="n">lanes</span><span class="p">):</span>
-    <span class="n">lat</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">nodes</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">nodes</span><span class="p">[</span><span class="s1">'osmid'</span><span class="p">]</span> <span class="o">==</span> <span class="n">osmid</span><span class="p">]</span><span class="o">.</span><span class="n">y</span><span class="p">)</span>
-    <span class="n">lng</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">nodes</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">nodes</span><span class="p">[</span><span class="s1">'osmid'</span><span class="p">]</span> <span class="o">==</span> <span class="n">osmid</span><span class="p">]</span><span class="o">.</span><span class="n">x</span><span class="p">)</span>
+    <span class="n">lat</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">nodes</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">nodes</span><span class="p">[</span><span class="s1">&#39;osmid&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">osmid</span><span class="p">]</span><span class="o">.</span><span class="n">y</span><span class="p">)</span>
+    <span class="n">lng</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">nodes</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">nodes</span><span class="p">[</span><span class="s1">&#39;osmid&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">osmid</span><span class="p">]</span><span class="o">.</span><span class="n">x</span><span class="p">)</span>
     
     <span class="n">tr</span> <span class="o">=</span> <span class="mf">0.0001</span><span class="o">*</span><span class="p">((</span><span class="n">LANE_WD</span> <span class="o">*</span> <span class="n">lanes</span><span class="p">)</span><span class="o">/</span><span class="n">CORD_TR</span><span class="p">)</span>
     
-    <span class="n">result</span> <span class="o">=</span> <span class="n">g_flow</span><span class="o">.</span><span class="n">loc</span><span class="p">[(</span><span class="n">g_flow</span><span class="p">[</span><span class="s1">'lat'</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="p">(</span><span class="n">lat</span><span class="o">-</span><span class="n">tr</span><span class="p">))</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">g_flow</span><span class="p">[</span><span class="s1">'lat'</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="p">(</span><span class="n">lat</span><span class="o">+</span><span class="n">tr</span><span class="p">))</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">g_flow</span><span class="p">[</span><span class="s1">'lng'</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="p">(</span><span class="n">lng</span><span class="o">-</span><span class="n">tr</span><span class="p">))</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">g_flow</span><span class="p">[</span><span class="s1">'lng'</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="p">(</span><span class="n">lng</span><span class="o">+</span><span class="n">tr</span><span class="p">))]</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">g_flow</span><span class="o">.</span><span class="n">loc</span><span class="p">[(</span><span class="n">g_flow</span><span class="p">[</span><span class="s1">&#39;lat&#39;</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="p">(</span><span class="n">lat</span><span class="o">-</span><span class="n">tr</span><span class="p">))</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">g_flow</span><span class="p">[</span><span class="s1">&#39;lat&#39;</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="p">(</span><span class="n">lat</span><span class="o">+</span><span class="n">tr</span><span class="p">))</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">g_flow</span><span class="p">[</span><span class="s1">&#39;lng&#39;</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="p">(</span><span class="n">lng</span><span class="o">-</span><span class="n">tr</span><span class="p">))</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">g_flow</span><span class="p">[</span><span class="s1">&#39;lng&#39;</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="p">(</span><span class="n">lng</span><span class="o">+</span><span class="n">tr</span><span class="p">))]</span>
     
     <span class="c1"># If there has no traffic flow on given edge, we pretend it has a reletively small traffic.</span>
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">result</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
-        <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">result</span><span class="p">[</span><span class="s1">'total'</span><span class="p">])</span>
+        <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">result</span><span class="p">[</span><span class="s1">&#39;total&#39;</span><span class="p">])</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">g_flow</span><span class="p">[</span><span class="s1">'total'</span><span class="p">]</span><span class="o">.</span><span class="n">quantile</span><span class="p">(</span><span class="mf">0.25</span><span class="p">))</span>
+        <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">g_flow</span><span class="p">[</span><span class="s1">&#39;total&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">quantile</span><span class="p">(</span><span class="mf">0.25</span><span class="p">))</span>
     
 </pre></div>
 
@@ -63380,7 +63389,7 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
     <span class="n">flow_v</span> <span class="o">=</span> <span class="n">find_traffic_flow</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">nodes_fixed</span><span class="p">,</span> <span class="n">g_flow</span><span class="p">,</span> <span class="n">lanes_num</span><span class="p">)</span>
     <span class="n">total_flow</span> <span class="o">=</span> <span class="n">flow_u</span> <span class="o">+</span> <span class="n">flow_v</span>
     
-    <span class="n">edges</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="s1">'traffic_flow'</span><span class="p">]</span> <span class="o">=</span> <span class="n">total_flow</span>
+    <span class="n">edges</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="s1">&#39;traffic_flow&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">total_flow</span>
     
     
 </pre></div>
@@ -63410,7 +63419,7 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 <div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[11]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">edges</span><span class="p">[</span><span class="s1">'n_traffic_flow'</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">edges</span><span class="p">[</span><span class="s1">'traffic_flow'</span><span class="p">]</span> <span class="o">-</span> <span class="n">edges</span><span class="p">[</span><span class="s1">'traffic_flow'</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">())</span><span class="o">/</span><span class="p">(</span><span class="n">edges</span><span class="p">[</span><span class="s1">'traffic_flow'</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">()</span> <span class="o">-</span> <span class="n">edges</span><span class="p">[</span><span class="s1">'traffic_flow'</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">())</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">edges</span><span class="p">[</span><span class="s1">&#39;n_traffic_flow&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">edges</span><span class="p">[</span><span class="s1">&#39;traffic_flow&#39;</span><span class="p">]</span> <span class="o">-</span> <span class="n">edges</span><span class="p">[</span><span class="s1">&#39;traffic_flow&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">())</span><span class="o">/</span><span class="p">(</span><span class="n">edges</span><span class="p">[</span><span class="s1">&#39;traffic_flow&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">()</span> <span class="o">-</span> <span class="n">edges</span><span class="p">[</span><span class="s1">&#39;traffic_flow&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">())</span>
 </pre></div>
 
      </div>
@@ -63438,7 +63447,7 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 <div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[12]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">edges</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">edges</span><span class="p">[</span><span class="s1">'n_traffic_flow'</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">,</span> <span class="s1">'n_traffic_flow'</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.999</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">edges</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">edges</span><span class="p">[</span><span class="s1">&#39;n_traffic_flow&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;n_traffic_flow&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.999</span>
 </pre></div>
 
      </div>
@@ -63466,7 +63475,7 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 <div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[13]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">edges</span><span class="p">[</span><span class="s1">'updated_d'</span><span class="p">]</span> <span class="o">=</span> <span class="n">edges</span><span class="p">[</span><span class="s1">'length'</span><span class="p">]</span><span class="o">/</span><span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">edges</span><span class="p">[</span><span class="s1">'n_traffic_flow'</span><span class="p">])</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">edges</span><span class="p">[</span><span class="s1">&#39;updated_d&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">edges</span><span class="p">[</span><span class="s1">&#39;length&#39;</span><span class="p">]</span><span class="o">/</span><span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">edges</span><span class="p">[</span><span class="s1">&#39;n_traffic_flow&#39;</span><span class="p">])</span>
 </pre></div>
 
      </div>
@@ -63494,7 +63503,7 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 <div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[14]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">edges</span><span class="p">[[</span><span class="s1">'maxspeed'</span><span class="p">]]</span> <span class="o">=</span> <span class="n">edges</span><span class="p">[[</span><span class="s1">'maxspeed'</span><span class="p">]]</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="n">value</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">edges</span><span class="p">[[</span><span class="s1">&#39;maxspeed&#39;</span><span class="p">]]</span> <span class="o">=</span> <span class="n">edges</span><span class="p">[[</span><span class="s1">&#39;maxspeed&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="n">value</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span>
 </pre></div>
 
      </div>
@@ -63522,7 +63531,7 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 <div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[15]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">edges</span><span class="p">[</span><span class="s1">'t'</span><span class="p">]</span> <span class="o">=</span> <span class="s2">" "</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">edges</span><span class="p">[</span><span class="s1">&#39;t&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot; &quot;</span>
 
 <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">edges</span><span class="o">.</span><span class="n">iterrows</span><span class="p">():</span>
     <span class="k">try</span><span class="p">:</span>
@@ -63538,7 +63547,7 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
     <span class="k">else</span><span class="p">:</span>
         <span class="n">t</span> <span class="o">=</span> <span class="n">row</span><span class="o">.</span><span class="n">length</span><span class="o">/</span><span class="n">speed</span>
         
-    <span class="n">edges</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="s1">'t'</span><span class="p">]</span> <span class="o">=</span> <span class="n">t</span>
+    <span class="n">edges</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="s1">&#39;t&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">t</span>
         
 </pre></div>
 
@@ -63556,7 +63565,7 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">adjusted_edges</span> <span class="o">=</span> <span class="n">edges</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
-<span class="n">adjusted_edges</span><span class="p">[</span><span class="s1">'length'</span><span class="p">]</span> <span class="o">=</span> <span class="n">adjusted_edges</span><span class="p">[</span><span class="s1">'t'</span><span class="p">]</span>
+<span class="n">adjusted_edges</span><span class="p">[</span><span class="s1">&#39;length&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">adjusted_edges</span><span class="p">[</span><span class="s1">&#39;t&#39;</span><span class="p">]</span>
 <span class="n">adjusted_edges</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
 </pre></div>
 
@@ -63571,9 +63580,7 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 
 
 <div class="jp-OutputArea jp-Cell-outputArea">
-
-<div class="jp-OutputArea-child">
-
+<div class="jp-OutputArea-child jp-OutputArea-executeResult">
     
     <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[16]:</div>
 
@@ -63819,11 +63826,11 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 <div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[18]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">collection</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'collection'</span><span class="p">,</span> <span class="mf">43.669142949308494</span><span class="p">,</span> <span class="o">-</span><span class="mf">79.4402416888576</span><span class="p">]</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">collection</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;collection&#39;</span><span class="p">,</span> <span class="mf">43.669142949308494</span><span class="p">,</span> <span class="o">-</span><span class="mf">79.4402416888576</span><span class="p">]</span>
 
-<span class="n">drop1</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'drop1'</span><span class="p">,</span> <span class="mf">43.66415636619444</span><span class="p">,</span> <span class="o">-</span><span class="mf">79.43023950001896</span><span class="p">]</span>
-<span class="c1"># drop2 = ['MEE-CHef', 43.663995240151735, -79.42493099894558]</span>
-<span class="n">drop2</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'drop2'</span><span class="p">,</span> <span class="mf">43.66345802563402</span><span class="p">,</span> <span class="o">-</span><span class="mf">79.41868287972488</span><span class="p">]</span>
+<span class="n">drop1</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;drop1&#39;</span><span class="p">,</span> <span class="mf">43.66415636619444</span><span class="p">,</span> <span class="o">-</span><span class="mf">79.43023950001896</span><span class="p">]</span>
+<span class="c1"># drop2 = [&#39;MEE-CHef&#39;, 43.663995240151735, -79.42493099894558]</span>
+<span class="n">drop2</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;drop2&#39;</span><span class="p">,</span> <span class="mf">43.66345802563402</span><span class="p">,</span> <span class="o">-</span><span class="mf">79.41868287972488</span><span class="p">]</span>
 </pre></div>
 
      </div>
@@ -63858,9 +63865,9 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 <span class="n">Y_1</span> <span class="o">=</span> <span class="p">[</span><span class="n">source_point</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">destination_point1</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span>
 <span class="n">closest_nodes_1</span> <span class="o">=</span> <span class="n">osmnx</span><span class="o">.</span><span class="n">distance</span><span class="o">.</span><span class="n">nearest_nodes</span><span class="p">(</span><span class="n">adjusted_g</span><span class="p">,</span><span class="n">X_1</span><span class="p">,</span><span class="n">Y_1</span><span class="p">)</span>
 
-<span class="c1"># Here, we use our weights 't' to calculate shortest path with dijkstra. length is already been replaced by t.</span>
+<span class="c1"># Here, we use our weights &#39;t&#39; to calculate shortest path with dijkstra. length is already been replaced by t.</span>
 <span class="n">start_1</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
-<span class="n">shortest_route_1</span> <span class="o">=</span> <span class="n">networkx</span><span class="o">.</span><span class="n">shortest_path</span><span class="p">(</span><span class="n">G</span><span class="o">=</span><span class="n">adjusted_g</span><span class="p">,</span><span class="n">source</span><span class="o">=</span><span class="n">closest_nodes_1</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">target</span><span class="o">=</span><span class="n">closest_nodes_1</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">weight</span><span class="o">=</span><span class="s1">'length'</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">'dijkstra'</span><span class="p">)</span>
+<span class="n">shortest_route_1</span> <span class="o">=</span> <span class="n">networkx</span><span class="o">.</span><span class="n">shortest_path</span><span class="p">(</span><span class="n">G</span><span class="o">=</span><span class="n">adjusted_g</span><span class="p">,</span><span class="n">source</span><span class="o">=</span><span class="n">closest_nodes_1</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">target</span><span class="o">=</span><span class="n">closest_nodes_1</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">weight</span><span class="o">=</span><span class="s1">&#39;length&#39;</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;dijkstra&#39;</span><span class="p">)</span>
 <span class="n">stop_1</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
 </pre></div>
 
@@ -63878,7 +63885,7 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">start_1213_1</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
-<span class="n">shortest_route_1213_1</span> <span class="o">=</span> <span class="n">networkx</span><span class="o">.</span><span class="n">shortest_path</span><span class="p">(</span><span class="n">G</span><span class="o">=</span><span class="n">graph</span><span class="p">,</span><span class="n">source</span><span class="o">=</span><span class="n">closest_nodes_1</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">target</span><span class="o">=</span><span class="n">closest_nodes_1</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">weight</span><span class="o">=</span><span class="s1">'length'</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">'dijkstra'</span><span class="p">)</span>
+<span class="n">shortest_route_1213_1</span> <span class="o">=</span> <span class="n">networkx</span><span class="o">.</span><span class="n">shortest_path</span><span class="p">(</span><span class="n">G</span><span class="o">=</span><span class="n">graph</span><span class="p">,</span><span class="n">source</span><span class="o">=</span><span class="n">closest_nodes_1</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">target</span><span class="o">=</span><span class="n">closest_nodes_1</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">weight</span><span class="o">=</span><span class="s1">&#39;length&#39;</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;dijkstra&#39;</span><span class="p">)</span>
 <span class="n">stop_1213_1</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
 </pre></div>
 
@@ -63899,8 +63906,8 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 
 <span class="n">m_dijkstra_original</span> <span class="o">=</span> <span class="n">osmnx</span><span class="o">.</span><span class="n">plot_route_folium</span><span class="p">(</span><span class="n">G</span><span class="o">=</span><span class="n">graph</span><span class="p">,</span><span class="n">route</span><span class="o">=</span><span class="n">shortest_route_1213_1</span><span class="p">,</span> <span class="n">route_map</span><span class="o">=</span><span class="n">m_dijkstra_original</span><span class="p">)</span>
 
-<span class="n">folium</span><span class="o">.</span><span class="n">Marker</span><span class="p">([</span><span class="n">collection</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">collection</span><span class="p">[</span><span class="mi">2</span><span class="p">]],</span> <span class="n">icon</span> <span class="o">=</span> <span class="n">folium</span><span class="o">.</span><span class="n">Icon</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s1">'red'</span><span class="p">),</span> <span class="n">popup</span><span class="o">=</span><span class="s2">"Collection"</span><span class="p">)</span><span class="o">.</span><span class="n">add_to</span><span class="p">(</span><span class="n">m_dijkstra_original</span><span class="p">)</span>
-<span class="n">folium</span><span class="o">.</span><span class="n">Marker</span><span class="p">([</span><span class="n">drop2</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">drop2</span><span class="p">[</span><span class="mi">2</span><span class="p">]],</span> <span class="n">icon</span> <span class="o">=</span> <span class="n">folium</span><span class="o">.</span><span class="n">Icon</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s1">'blue'</span><span class="p">),</span> <span class="n">popup</span><span class="o">=</span><span class="s2">"drop2"</span><span class="p">)</span><span class="o">.</span><span class="n">add_to</span><span class="p">(</span><span class="n">m_dijkstra_original</span><span class="p">)</span>
+<span class="n">folium</span><span class="o">.</span><span class="n">Marker</span><span class="p">([</span><span class="n">collection</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">collection</span><span class="p">[</span><span class="mi">2</span><span class="p">]],</span> <span class="n">icon</span> <span class="o">=</span> <span class="n">folium</span><span class="o">.</span><span class="n">Icon</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">),</span> <span class="n">popup</span><span class="o">=</span><span class="s2">&quot;Collection&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">add_to</span><span class="p">(</span><span class="n">m_dijkstra_original</span><span class="p">)</span>
+<span class="n">folium</span><span class="o">.</span><span class="n">Marker</span><span class="p">([</span><span class="n">drop2</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">drop2</span><span class="p">[</span><span class="mi">2</span><span class="p">]],</span> <span class="n">icon</span> <span class="o">=</span> <span class="n">folium</span><span class="o">.</span><span class="n">Icon</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s1">&#39;blue&#39;</span><span class="p">),</span> <span class="n">popup</span><span class="o">=</span><span class="s2">&quot;drop2&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">add_to</span><span class="p">(</span><span class="n">m_dijkstra_original</span><span class="p">)</span>
 
 <span class="n">m_dijkstra_original</span>
 </pre></div>
@@ -63916,9 +63923,7 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 
 
 <div class="jp-OutputArea jp-Cell-outputArea">
-
-<div class="jp-OutputArea-child">
-
+<div class="jp-OutputArea-child jp-OutputArea-executeResult">
     
     <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[21]:</div>
 
@@ -64422,8 +64427,8 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 
 <span class="n">m_dijkstra</span> <span class="o">=</span> <span class="n">osmnx</span><span class="o">.</span><span class="n">plot_route_folium</span><span class="p">(</span><span class="n">G</span><span class="o">=</span><span class="n">adjusted_g</span><span class="p">,</span><span class="n">route</span><span class="o">=</span><span class="n">shortest_route_1</span><span class="p">,</span> <span class="n">route_map</span><span class="o">=</span><span class="n">m_dijkstra</span><span class="p">)</span>
 
-<span class="n">folium</span><span class="o">.</span><span class="n">Marker</span><span class="p">([</span><span class="n">collection</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">collection</span><span class="p">[</span><span class="mi">2</span><span class="p">]],</span> <span class="n">icon</span> <span class="o">=</span> <span class="n">folium</span><span class="o">.</span><span class="n">Icon</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s1">'red'</span><span class="p">),</span> <span class="n">popup</span><span class="o">=</span><span class="s2">"Collection"</span><span class="p">)</span><span class="o">.</span><span class="n">add_to</span><span class="p">(</span><span class="n">m_dijkstra</span><span class="p">)</span>
-<span class="n">folium</span><span class="o">.</span><span class="n">Marker</span><span class="p">([</span><span class="n">drop2</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">drop2</span><span class="p">[</span><span class="mi">2</span><span class="p">]],</span> <span class="n">icon</span> <span class="o">=</span> <span class="n">folium</span><span class="o">.</span><span class="n">Icon</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s1">'blue'</span><span class="p">),</span> <span class="n">popup</span><span class="o">=</span><span class="s2">"drop2"</span><span class="p">)</span><span class="o">.</span><span class="n">add_to</span><span class="p">(</span><span class="n">m_dijkstra</span><span class="p">)</span>
+<span class="n">folium</span><span class="o">.</span><span class="n">Marker</span><span class="p">([</span><span class="n">collection</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">collection</span><span class="p">[</span><span class="mi">2</span><span class="p">]],</span> <span class="n">icon</span> <span class="o">=</span> <span class="n">folium</span><span class="o">.</span><span class="n">Icon</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">),</span> <span class="n">popup</span><span class="o">=</span><span class="s2">&quot;Collection&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">add_to</span><span class="p">(</span><span class="n">m_dijkstra</span><span class="p">)</span>
+<span class="n">folium</span><span class="o">.</span><span class="n">Marker</span><span class="p">([</span><span class="n">drop2</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">drop2</span><span class="p">[</span><span class="mi">2</span><span class="p">]],</span> <span class="n">icon</span> <span class="o">=</span> <span class="n">folium</span><span class="o">.</span><span class="n">Icon</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s1">&#39;blue&#39;</span><span class="p">),</span> <span class="n">popup</span><span class="o">=</span><span class="s2">&quot;drop2&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">add_to</span><span class="p">(</span><span class="n">m_dijkstra</span><span class="p">)</span>
 
 <span class="n">m_dijkstra</span>
 </pre></div>
@@ -64439,9 +64444,7 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 
 
 <div class="jp-OutputArea jp-Cell-outputArea">
-
-<div class="jp-OutputArea-child">
-
+<div class="jp-OutputArea-child jp-OutputArea-executeResult">
     
     <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[20]:</div>
 
@@ -64971,7 +64974,7 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 <div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[21]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">cost_dij</span> <span class="o">=</span> <span class="n">networkx</span><span class="o">.</span><span class="n">path_weight</span><span class="p">(</span><span class="n">adjusted_g</span><span class="p">,</span> <span class="n">shortest_route_1</span><span class="p">,</span> <span class="n">weight</span><span class="o">=</span><span class="s1">'length'</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">cost_dij</span> <span class="o">=</span> <span class="n">networkx</span><span class="o">.</span><span class="n">path_weight</span><span class="p">(</span><span class="n">adjusted_g</span><span class="p">,</span> <span class="n">shortest_route_1</span><span class="p">,</span> <span class="n">weight</span><span class="o">=</span><span class="s1">&#39;length&#39;</span><span class="p">)</span>
 
 <span class="n">running_time_dij</span> <span class="o">=</span> <span class="p">(</span><span class="n">stop_1</span><span class="o">-</span><span class="n">start_1</span><span class="p">)</span>
 <span class="n">cost_dij</span><span class="p">,</span> <span class="n">running_time_dij</span>
@@ -64988,9 +64991,7 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 
 
 <div class="jp-OutputArea jp-Cell-outputArea">
-
-<div class="jp-OutputArea-child">
-
+<div class="jp-OutputArea-child jp-OutputArea-executeResult">
     
     <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[21]:</div>
 
@@ -65048,8 +65049,8 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 <span class="k">def</span> <span class="nf">cost_of_tour</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">tour</span><span class="p">):</span>
     <span class="n">cost</span> <span class="o">=</span> <span class="mi">0</span>
     <span class="k">for</span> <span class="n">u</span><span class="p">,</span><span class="n">v</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">tour</span><span class="p">,</span> <span class="n">tour</span><span class="p">[</span><span class="mi">1</span><span class="p">:]):</span>
-        <span class="n">cost</span> <span class="o">+=</span> <span class="n">G</span><span class="p">[</span><span class="n">u</span><span class="p">][</span><span class="n">v</span><span class="p">][</span><span class="s1">'length'</span><span class="p">]</span>
-    <span class="n">cost</span> <span class="o">+=</span> <span class="n">G</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">tour</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s1">'length'</span><span class="p">]</span>
+        <span class="n">cost</span> <span class="o">+=</span> <span class="n">G</span><span class="p">[</span><span class="n">u</span><span class="p">][</span><span class="n">v</span><span class="p">][</span><span class="s1">&#39;length&#39;</span><span class="p">]</span>
+    <span class="n">cost</span> <span class="o">+=</span> <span class="n">G</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">tour</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;length&#39;</span><span class="p">]</span>
     <span class="k">return</span> <span class="n">cost</span>
 
 <span class="c1"># A function to generate neighbours and select a route</span>
@@ -65073,7 +65074,7 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
     <span class="n">states</span> <span class="o">=</span> <span class="p">[</span><span class="n">cost_function</span><span class="p">(</span><span class="n">G</span><span class="p">,</span><span class="n">initial_solution</span><span class="p">)]</span>
     <span class="k">if</span> <span class="n">use_tqdm</span><span class="p">:</span> <span class="n">pbar</span> <span class="o">=</span> <span class="n">tqdm</span><span class="p">(</span><span class="n">total</span><span class="o">=</span><span class="n">num_iter</span><span class="p">)</span>
     <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_iter</span><span class="p">):</span>
-        <span class="c1"># print("it {}..".format(t), end='\t')</span>
+        <span class="c1"># print(&quot;it {}..&quot;.format(t), end=&#39;\t&#39;)</span>
         <span class="k">if</span> <span class="n">use_tqdm</span><span class="p">:</span> <span class="n">pbar</span><span class="o">.</span><span class="n">update</span><span class="p">()</span>
         <span class="n">T</span> <span class="o">=</span> <span class="n">schedule_function</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
         <span class="n">next_choice</span> <span class="o">=</span> <span class="n">neighbour_function</span><span class="p">(</span><span class="n">G</span><span class="p">,</span><span class="n">current</span><span class="p">)</span>
@@ -65156,9 +65157,7 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 
 
 <div class="jp-OutputArea jp-Cell-outputArea">
-
-<div class="jp-OutputArea-child">
-
+<div class="jp-OutputArea-child jp-OutputArea-executeResult">
     
     <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[25]:</div>
 
@@ -65185,8 +65184,8 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">start_3</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
 <span class="n">initial_solution</span> <span class="o">=</span> <span class="n">randomized_search</span><span class="p">(</span><span class="n">adjusted_g</span><span class="p">,</span> <span class="n">origin</span><span class="o">.</span><span class="n">osmid</span><span class="p">,</span> <span class="n">destination1</span><span class="o">.</span><span class="n">osmid</span><span class="p">)</span>
-<span class="nb">print</span> <span class="p">(</span><span class="sa">f</span><span class="s2">"Initial Solution: </span><span class="si">{</span><span class="n">initial_solution</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Initial Cost: </span><span class="si">{</span><span class="n">cost</span><span class="p">(</span><span class="n">adjusted_g</span><span class="p">,</span><span class="n">initial_solution</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span> <span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Initial Solution: </span><span class="si">{</span><span class="n">initial_solution</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Initial Cost: </span><span class="si">{</span><span class="n">cost</span><span class="p">(</span><span class="n">adjusted_g</span><span class="p">,</span><span class="n">initial_solution</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 <span class="n">best_solution_1</span><span class="p">,</span> <span class="n">best_cost_1</span><span class="p">,</span> <span class="n">states_1</span> <span class="o">=</span> <span class="n">simulated_annealing</span><span class="p">(</span>
     <span class="n">adjusted_g</span><span class="p">,</span>
     <span class="n">initial_solution</span><span class="p">,</span>
@@ -65215,9 +65214,7 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 
 
 <div class="jp-OutputArea jp-Cell-outputArea">
-
 <div class="jp-OutputArea-child">
-
     
     <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 
@@ -65228,9 +65225,7 @@ Initial Cost: 2654.9007
 </pre>
 </div>
 </div>
-
 <div class="jp-OutputArea-child">
-
     
     <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 
@@ -65270,8 +65265,8 @@ Initial Cost: 2654.9007
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">num_iterations</span> <span class="o">=</span> <span class="mi">500</span>
 <span class="n">start_4</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
 <span class="n">initial_solution</span> <span class="o">=</span> <span class="n">randomized_search</span><span class="p">(</span><span class="n">adjusted_g</span><span class="p">,</span> <span class="n">origin</span><span class="o">.</span><span class="n">osmid</span><span class="p">,</span> <span class="n">destination1</span><span class="o">.</span><span class="n">osmid</span><span class="p">)</span>
-<span class="nb">print</span> <span class="p">(</span><span class="sa">f</span><span class="s2">"Initial Solution: </span><span class="si">{</span><span class="n">initial_solution</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Initial Cost: </span><span class="si">{</span><span class="n">cost</span><span class="p">(</span><span class="n">adjusted_g</span><span class="p">,</span><span class="n">initial_solution</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span> <span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Initial Solution: </span><span class="si">{</span><span class="n">initial_solution</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Initial Cost: </span><span class="si">{</span><span class="n">cost</span><span class="p">(</span><span class="n">adjusted_g</span><span class="p">,</span><span class="n">initial_solution</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 <span class="n">best_solution_2</span><span class="p">,</span> <span class="n">best_cost_2</span><span class="p">,</span> <span class="n">states_2</span> <span class="o">=</span> <span class="n">simulated_annealing</span><span class="p">(</span>
     <span class="n">adjusted_g</span><span class="p">,</span>
     <span class="n">initial_solution</span><span class="p">,</span>
@@ -65300,9 +65295,7 @@ Initial Cost: 2654.9007
 
 
 <div class="jp-OutputArea jp-Cell-outputArea">
-
 <div class="jp-OutputArea-child">
-
     
     <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 
@@ -65313,9 +65306,7 @@ Initial Cost: 316.6964
 </pre>
 </div>
 </div>
-
 <div class="jp-OutputArea-child">
-
     
     <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 
@@ -65358,8 +65349,8 @@ Initial Cost: 316.6964
 
 <span class="n">start_5</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
 <span class="n">initial_solution</span> <span class="o">=</span> <span class="n">randomized_search</span><span class="p">(</span><span class="n">adjusted_g</span><span class="p">,</span> <span class="n">origin</span><span class="o">.</span><span class="n">osmid</span><span class="p">,</span> <span class="n">destination1</span><span class="o">.</span><span class="n">osmid</span><span class="p">)</span>
-<span class="nb">print</span> <span class="p">(</span><span class="sa">f</span><span class="s2">"Initial Solution: </span><span class="si">{</span><span class="n">initial_solution</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Initial Cost: </span><span class="si">{</span><span class="n">cost</span><span class="p">(</span><span class="n">adjusted_g</span><span class="p">,</span><span class="n">initial_solution</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span> <span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Initial Solution: </span><span class="si">{</span><span class="n">initial_solution</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Initial Cost: </span><span class="si">{</span><span class="n">cost</span><span class="p">(</span><span class="n">adjusted_g</span><span class="p">,</span><span class="n">initial_solution</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 <span class="n">best_solution_3</span><span class="p">,</span> <span class="n">best_cost_3</span><span class="p">,</span> <span class="n">states_3</span> <span class="o">=</span> <span class="n">simulated_annealing</span><span class="p">(</span>
     <span class="n">adjusted_g</span><span class="p">,</span>
     <span class="n">initial_solution</span><span class="p">,</span>
@@ -65388,9 +65379,7 @@ Initial Cost: 316.6964
 
 
 <div class="jp-OutputArea jp-Cell-outputArea">
-
 <div class="jp-OutputArea-child">
-
     
     <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 
@@ -65401,9 +65390,7 @@ Initial Cost: 2661.6311
 </pre>
 </div>
 </div>
-
 <div class="jp-OutputArea-child">
-
     
     <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 
@@ -65446,8 +65433,8 @@ Initial Cost: 2661.6311
 
 <span class="n">start_6</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
 <span class="n">initial_solution</span> <span class="o">=</span> <span class="n">randomized_search</span><span class="p">(</span><span class="n">adjusted_g</span><span class="p">,</span> <span class="n">origin</span><span class="o">.</span><span class="n">osmid</span><span class="p">,</span> <span class="n">destination1</span><span class="o">.</span><span class="n">osmid</span><span class="p">)</span>
-<span class="nb">print</span> <span class="p">(</span><span class="sa">f</span><span class="s2">"Initial Solution: </span><span class="si">{</span><span class="n">initial_solution</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Initial Cost: </span><span class="si">{</span><span class="n">cost</span><span class="p">(</span><span class="n">adjusted_g</span><span class="p">,</span><span class="n">initial_solution</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span> <span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Initial Solution: </span><span class="si">{</span><span class="n">initial_solution</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Initial Cost: </span><span class="si">{</span><span class="n">cost</span><span class="p">(</span><span class="n">adjusted_g</span><span class="p">,</span><span class="n">initial_solution</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 <span class="n">best_solution_4</span><span class="p">,</span> <span class="n">best_cost_4</span><span class="p">,</span> <span class="n">states_4</span> <span class="o">=</span> <span class="n">simulated_annealing</span><span class="p">(</span>
     <span class="n">adjusted_g</span><span class="p">,</span>
     <span class="n">initial_solution</span><span class="p">,</span>
@@ -65476,9 +65463,7 @@ Initial Cost: 2661.6311
 
 
 <div class="jp-OutputArea jp-Cell-outputArea">
-
 <div class="jp-OutputArea-child">
-
     
     <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 
@@ -65489,9 +65474,7 @@ Initial Cost: 2647.2947
 </pre>
 </div>
 </div>
-
 <div class="jp-OutputArea-child">
-
     
     <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 
@@ -65529,13 +65512,13 @@ Initial Cost: 2647.2947
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">m_sa</span> <span class="o">=</span> <span class="n">folium</span><span class="o">.</span><span class="n">Map</span><span class="p">(</span><span class="n">location</span><span class="o">=</span><span class="p">[</span><span class="mf">43.66469344988004</span><span class="p">,</span> <span class="o">-</span><span class="mf">79.43064784625537</span><span class="p">],</span> <span class="n">zoom_start</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
 
-<span class="n">color_map</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'blue'</span><span class="p">,</span> <span class="s1">'red'</span><span class="p">,</span> <span class="s1">'green'</span><span class="p">,</span> <span class="s1">'purple'</span><span class="p">]</span>
+<span class="n">color_map</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;blue&#39;</span><span class="p">,</span> <span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="s1">&#39;green&#39;</span><span class="p">,</span> <span class="s1">&#39;purple&#39;</span><span class="p">]</span>
 
 <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">4</span><span class="p">):</span>
-    <span class="n">m_sa</span> <span class="o">=</span> <span class="n">osmnx</span><span class="o">.</span><span class="n">plot_route_folium</span><span class="p">(</span><span class="n">G</span><span class="o">=</span><span class="n">graph</span><span class="p">,</span><span class="n">route</span><span class="o">=</span><span class="n">sa_result_best_solution_list</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">route_map</span><span class="o">=</span><span class="n">m_sa</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">color_map</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">opacity</span><span class="o">=</span><span class="s2">"0.5"</span><span class="p">)</span>
+    <span class="n">m_sa</span> <span class="o">=</span> <span class="n">osmnx</span><span class="o">.</span><span class="n">plot_route_folium</span><span class="p">(</span><span class="n">G</span><span class="o">=</span><span class="n">graph</span><span class="p">,</span><span class="n">route</span><span class="o">=</span><span class="n">sa_result_best_solution_list</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">route_map</span><span class="o">=</span><span class="n">m_sa</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">color_map</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">opacity</span><span class="o">=</span><span class="s2">&quot;0.5&quot;</span><span class="p">)</span>
 
-<span class="n">folium</span><span class="o">.</span><span class="n">Marker</span><span class="p">([</span><span class="n">collection</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">collection</span><span class="p">[</span><span class="mi">2</span><span class="p">]],</span> <span class="n">icon</span> <span class="o">=</span> <span class="n">folium</span><span class="o">.</span><span class="n">Icon</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s1">'red'</span><span class="p">),</span> <span class="n">popup</span><span class="o">=</span><span class="s2">"Collection"</span><span class="p">)</span><span class="o">.</span><span class="n">add_to</span><span class="p">(</span><span class="n">m_sa</span><span class="p">)</span>
-<span class="n">folium</span><span class="o">.</span><span class="n">Marker</span><span class="p">([</span><span class="n">drop2</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">drop2</span><span class="p">[</span><span class="mi">2</span><span class="p">]],</span> <span class="n">icon</span> <span class="o">=</span> <span class="n">folium</span><span class="o">.</span><span class="n">Icon</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s1">'blue'</span><span class="p">),</span> <span class="n">popup</span><span class="o">=</span><span class="n">drop2</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">.</span><span class="n">add_to</span><span class="p">(</span><span class="n">m_sa</span><span class="p">)</span>
+<span class="n">folium</span><span class="o">.</span><span class="n">Marker</span><span class="p">([</span><span class="n">collection</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">collection</span><span class="p">[</span><span class="mi">2</span><span class="p">]],</span> <span class="n">icon</span> <span class="o">=</span> <span class="n">folium</span><span class="o">.</span><span class="n">Icon</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">),</span> <span class="n">popup</span><span class="o">=</span><span class="s2">&quot;Collection&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">add_to</span><span class="p">(</span><span class="n">m_sa</span><span class="p">)</span>
+<span class="n">folium</span><span class="o">.</span><span class="n">Marker</span><span class="p">([</span><span class="n">drop2</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">drop2</span><span class="p">[</span><span class="mi">2</span><span class="p">]],</span> <span class="n">icon</span> <span class="o">=</span> <span class="n">folium</span><span class="o">.</span><span class="n">Icon</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s1">&#39;blue&#39;</span><span class="p">),</span> <span class="n">popup</span><span class="o">=</span><span class="n">drop2</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">.</span><span class="n">add_to</span><span class="p">(</span><span class="n">m_sa</span><span class="p">)</span>
 
 <span class="n">m_sa</span>
 </pre></div>
@@ -65551,9 +65534,7 @@ Initial Cost: 2647.2947
 
 
 <div class="jp-OutputArea jp-Cell-outputArea">
-
-<div class="jp-OutputArea-child">
-
+<div class="jp-OutputArea-child jp-OutputArea-executeResult">
     
     <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[59]:</div>
 
@@ -67433,8 +67414,8 @@ Initial Cost: 2647.2947
 <div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[31]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">sa_cost_result</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">'Experiment'</span><span class="p">:[</span><span class="s1">'ex1'</span><span class="p">,</span> <span class="s1">'ex2'</span><span class="p">,</span> <span class="s1">'ex3'</span><span class="p">,</span> <span class="s1">'ex4'</span><span class="p">],</span> <span class="s1">'Cost'</span><span class="p">:[</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">sa_result_best_cost_list</span><span class="p">]})</span>
-<span class="n">sa_cost_result</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s1">'Experiment'</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s1">'Cost'</span><span class="p">,</span> <span class="n">rot</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">sa_cost_result</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">&#39;Experiment&#39;</span><span class="p">:[</span><span class="s1">&#39;ex1&#39;</span><span class="p">,</span> <span class="s1">&#39;ex2&#39;</span><span class="p">,</span> <span class="s1">&#39;ex3&#39;</span><span class="p">,</span> <span class="s1">&#39;ex4&#39;</span><span class="p">],</span> <span class="s1">&#39;Cost&#39;</span><span class="p">:[</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">sa_result_best_cost_list</span><span class="p">]})</span>
+<span class="n">sa_cost_result</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s1">&#39;Experiment&#39;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s1">&#39;Cost&#39;</span><span class="p">,</span> <span class="n">rot</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 </pre></div>
 
      </div>
@@ -67448,9 +67429,7 @@ Initial Cost: 2647.2947
 
 
 <div class="jp-OutputArea jp-Cell-outputArea">
-
-<div class="jp-OutputArea-child">
-
+<div class="jp-OutputArea-child jp-OutputArea-executeResult">
     
     <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[31]:</div>
 
@@ -67462,9 +67441,7 @@ Initial Cost: 2647.2947
 </div>
 
 </div>
-
 <div class="jp-OutputArea-child">
-
     
     <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 
@@ -67492,8 +67469,8 @@ class="
 <div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[32]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">sa_time_result</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">'Experiment'</span><span class="p">:[</span><span class="s1">'ex1'</span><span class="p">,</span> <span class="s1">'ex2'</span><span class="p">,</span> <span class="s1">'ex3'</span><span class="p">,</span> <span class="s1">'ex4'</span><span class="p">],</span> <span class="s1">'Time'</span><span class="p">:[</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">sa_result_time_list</span><span class="p">]})</span>
-<span class="n">sa_time_result</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s1">'Experiment'</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s1">'Time'</span><span class="p">,</span> <span class="n">rot</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">sa_time_result</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">&#39;Experiment&#39;</span><span class="p">:[</span><span class="s1">&#39;ex1&#39;</span><span class="p">,</span> <span class="s1">&#39;ex2&#39;</span><span class="p">,</span> <span class="s1">&#39;ex3&#39;</span><span class="p">,</span> <span class="s1">&#39;ex4&#39;</span><span class="p">],</span> <span class="s1">&#39;Time&#39;</span><span class="p">:[</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">sa_result_time_list</span><span class="p">]})</span>
+<span class="n">sa_time_result</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s1">&#39;Experiment&#39;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s1">&#39;Time&#39;</span><span class="p">,</span> <span class="n">rot</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 </pre></div>
 
      </div>
@@ -67507,9 +67484,7 @@ class="
 
 
 <div class="jp-OutputArea jp-Cell-outputArea">
-
-<div class="jp-OutputArea-child">
-
+<div class="jp-OutputArea-child jp-OutputArea-executeResult">
     
     <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[32]:</div>
 
@@ -67521,9 +67496,7 @@ class="
 </div>
 
 </div>
-
 <div class="jp-OutputArea-child">
-
     
     <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 
@@ -67551,8 +67524,8 @@ class="
 <div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[33]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">"# iterations"</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">"Cost (sec)"</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;# iterations&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Cost (sec)&quot;</span><span class="p">)</span>
 
 <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">4</span><span class="p">):</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">sa_result_best_state_list</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="n">color_map</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
@@ -67570,9 +67543,7 @@ class="
 
 
 <div class="jp-OutputArea jp-Cell-outputArea">
-
 <div class="jp-OutputArea-child">
-
     
     <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 
@@ -67628,7 +67599,7 @@ class="
     <span class="n">reheating</span> <span class="o">=</span> <span class="mi">2</span>
     
     <span class="k">while</span> <span class="n">t</span><span class="o">!=</span><span class="mi">0</span><span class="p">:</span>
-        <span class="c1"># print("it {}..".format(t), end='\t')</span>
+        <span class="c1"># print(&quot;it {}..&quot;.format(t), end=&#39;\t&#39;)</span>
         <span class="k">if</span> <span class="n">use_tqdm</span><span class="p">:</span> 
             <span class="n">pbar</span><span class="o">.</span><span class="n">update</span><span class="p">()</span>
         <span class="n">updated</span> <span class="o">=</span> <span class="kc">False</span>
@@ -67650,7 +67621,7 @@ class="
         <span class="k">else</span><span class="p">:</span>
             <span class="n">consecutive_non_updated</span> <span class="o">+=</span> <span class="mi">1</span>
         
-        <span class="c1"># If it doesn't find any new minimum, we reheat it. But we only reheat twice.</span>
+        <span class="c1"># If it doesn&#39;t find any new minimum, we reheat it. But we only reheat twice.</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">updated</span> <span class="ow">and</span> <span class="n">reheating</span> <span class="o">!=</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">consecutive_non_updated</span> <span class="o">==</span> <span class="mi">5</span><span class="p">:</span>
             <span class="n">t</span> <span class="o">+=</span> <span class="nb">int</span><span class="p">(</span><span class="n">num_iter</span><span class="o">/</span><span class="mi">10</span><span class="p">)</span>
             <span class="n">reheating</span> <span class="o">-=</span> <span class="mi">1</span>
@@ -67715,8 +67686,8 @@ class="
 
 <span class="n">start_7</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
 <span class="n">initial_solution</span> <span class="o">=</span> <span class="n">randomized_search</span><span class="p">(</span><span class="n">adjusted_g</span><span class="p">,</span> <span class="n">origin</span><span class="o">.</span><span class="n">osmid</span><span class="p">,</span> <span class="n">destination1</span><span class="o">.</span><span class="n">osmid</span><span class="p">)</span>
-<span class="nb">print</span> <span class="p">(</span><span class="sa">f</span><span class="s2">"Initial Solution: </span><span class="si">{</span><span class="n">initial_solution</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Initial Cost: </span><span class="si">{</span><span class="n">cost</span><span class="p">(</span><span class="n">adjusted_g</span><span class="p">,</span><span class="n">initial_solution</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span> <span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Initial Solution: </span><span class="si">{</span><span class="n">initial_solution</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Initial Cost: </span><span class="si">{</span><span class="n">cost</span><span class="p">(</span><span class="n">adjusted_g</span><span class="p">,</span><span class="n">initial_solution</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 <span class="n">best_solution_5</span><span class="p">,</span> <span class="n">best_cost_5</span><span class="p">,</span> <span class="n">states_5</span> <span class="o">=</span> <span class="n">adaptive_simulated_annealing_probility_of_acceptance</span><span class="p">(</span>
     <span class="n">adjusted_g</span><span class="p">,</span>
     <span class="n">initial_solution</span><span class="p">,</span>
@@ -67745,9 +67716,7 @@ class="
 
 
 <div class="jp-OutputArea jp-Cell-outputArea">
-
 <div class="jp-OutputArea-child">
-
     
     <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 
@@ -67758,9 +67727,7 @@ Initial Cost: 240.1012
 </pre>
 </div>
 </div>
-
 <div class="jp-OutputArea-child">
-
     
     <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 
@@ -67800,8 +67767,8 @@ Initial Cost: 240.1012
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">num_iterations</span> <span class="o">=</span> <span class="mi">500</span>
 <span class="n">start_8</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
 <span class="n">initial_solution</span> <span class="o">=</span> <span class="n">randomized_search</span><span class="p">(</span><span class="n">adjusted_g</span><span class="p">,</span> <span class="n">origin</span><span class="o">.</span><span class="n">osmid</span><span class="p">,</span> <span class="n">destination1</span><span class="o">.</span><span class="n">osmid</span><span class="p">)</span>
-<span class="nb">print</span> <span class="p">(</span><span class="sa">f</span><span class="s2">"Initial Solution: </span><span class="si">{</span><span class="n">initial_solution</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Initial Cost: </span><span class="si">{</span><span class="n">cost</span><span class="p">(</span><span class="n">adjusted_g</span><span class="p">,</span><span class="n">initial_solution</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span> <span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Initial Solution: </span><span class="si">{</span><span class="n">initial_solution</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Initial Cost: </span><span class="si">{</span><span class="n">cost</span><span class="p">(</span><span class="n">adjusted_g</span><span class="p">,</span><span class="n">initial_solution</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 <span class="n">best_solution_6</span><span class="p">,</span> <span class="n">best_cost_6</span><span class="p">,</span> <span class="n">states_6</span> <span class="o">=</span> <span class="n">simulated_annealing</span><span class="p">(</span>
     <span class="n">adjusted_g</span><span class="p">,</span>
     <span class="n">initial_solution</span><span class="p">,</span>
@@ -67830,9 +67797,7 @@ Initial Cost: 240.1012
 
 
 <div class="jp-OutputArea jp-Cell-outputArea">
-
 <div class="jp-OutputArea-child">
-
     
     <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 
@@ -67843,9 +67808,7 @@ Initial Cost: 2733.8131
 </pre>
 </div>
 </div>
-
 <div class="jp-OutputArea-child">
-
     
     <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 
@@ -67888,8 +67851,8 @@ Initial Cost: 2733.8131
 
 <span class="n">start_9</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
 <span class="n">initial_solution</span> <span class="o">=</span> <span class="n">randomized_search</span><span class="p">(</span><span class="n">adjusted_g</span><span class="p">,</span> <span class="n">origin</span><span class="o">.</span><span class="n">osmid</span><span class="p">,</span> <span class="n">destination1</span><span class="o">.</span><span class="n">osmid</span><span class="p">)</span>
-<span class="nb">print</span> <span class="p">(</span><span class="sa">f</span><span class="s2">"Initial Solution: </span><span class="si">{</span><span class="n">initial_solution</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Initial Cost: </span><span class="si">{</span><span class="n">cost</span><span class="p">(</span><span class="n">adjusted_g</span><span class="p">,</span><span class="n">initial_solution</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span> <span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Initial Solution: </span><span class="si">{</span><span class="n">initial_solution</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Initial Cost: </span><span class="si">{</span><span class="n">cost</span><span class="p">(</span><span class="n">adjusted_g</span><span class="p">,</span><span class="n">initial_solution</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 <span class="n">best_solution_7</span><span class="p">,</span> <span class="n">best_cost_7</span><span class="p">,</span> <span class="n">states_7</span> <span class="o">=</span> <span class="n">simulated_annealing</span><span class="p">(</span>
     <span class="n">adjusted_g</span><span class="p">,</span>
     <span class="n">initial_solution</span><span class="p">,</span>
@@ -67918,9 +67881,7 @@ Initial Cost: 2733.8131
 
 
 <div class="jp-OutputArea jp-Cell-outputArea">
-
 <div class="jp-OutputArea-child">
-
     
     <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 
@@ -67931,9 +67892,7 @@ Initial Cost: 321.3632
 </pre>
 </div>
 </div>
-
 <div class="jp-OutputArea-child">
-
     
     <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 
@@ -67960,13 +67919,13 @@ Initial Cost: 321.3632
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">m_asa</span> <span class="o">=</span> <span class="n">folium</span><span class="o">.</span><span class="n">Map</span><span class="p">(</span><span class="n">location</span><span class="o">=</span><span class="p">[</span><span class="mf">43.66469344988004</span><span class="p">,</span> <span class="o">-</span><span class="mf">79.43064784625537</span><span class="p">],</span> <span class="n">zoom_start</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
 
-<span class="n">color_map</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'blue'</span><span class="p">,</span> <span class="s1">'red'</span><span class="p">,</span> <span class="s1">'green'</span><span class="p">]</span>
+<span class="n">color_map</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;blue&#39;</span><span class="p">,</span> <span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="s1">&#39;green&#39;</span><span class="p">]</span>
 
 <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">):</span>
-    <span class="n">m_asa</span> <span class="o">=</span> <span class="n">osmnx</span><span class="o">.</span><span class="n">plot_route_folium</span><span class="p">(</span><span class="n">G</span><span class="o">=</span><span class="n">graph</span><span class="p">,</span><span class="n">route</span><span class="o">=</span><span class="n">asa_result_best_solution_list</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">route_map</span><span class="o">=</span><span class="n">m_asa</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">color_map</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">opacity</span><span class="o">=</span><span class="s2">"0.5"</span><span class="p">)</span>
+    <span class="n">m_asa</span> <span class="o">=</span> <span class="n">osmnx</span><span class="o">.</span><span class="n">plot_route_folium</span><span class="p">(</span><span class="n">G</span><span class="o">=</span><span class="n">graph</span><span class="p">,</span><span class="n">route</span><span class="o">=</span><span class="n">asa_result_best_solution_list</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">route_map</span><span class="o">=</span><span class="n">m_asa</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">color_map</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">opacity</span><span class="o">=</span><span class="s2">&quot;0.5&quot;</span><span class="p">)</span>
 
-<span class="n">folium</span><span class="o">.</span><span class="n">Marker</span><span class="p">([</span><span class="n">collection</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">collection</span><span class="p">[</span><span class="mi">2</span><span class="p">]],</span> <span class="n">icon</span> <span class="o">=</span> <span class="n">folium</span><span class="o">.</span><span class="n">Icon</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s1">'red'</span><span class="p">),</span> <span class="n">popup</span><span class="o">=</span><span class="s2">"Collection"</span><span class="p">)</span><span class="o">.</span><span class="n">add_to</span><span class="p">(</span><span class="n">m_asa</span><span class="p">)</span>
-<span class="n">folium</span><span class="o">.</span><span class="n">Marker</span><span class="p">([</span><span class="n">drop2</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">drop2</span><span class="p">[</span><span class="mi">2</span><span class="p">]],</span> <span class="n">icon</span> <span class="o">=</span> <span class="n">folium</span><span class="o">.</span><span class="n">Icon</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s1">'blue'</span><span class="p">),</span> <span class="n">popup</span><span class="o">=</span><span class="n">drop2</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">.</span><span class="n">add_to</span><span class="p">(</span><span class="n">m_asa</span><span class="p">)</span>
+<span class="n">folium</span><span class="o">.</span><span class="n">Marker</span><span class="p">([</span><span class="n">collection</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">collection</span><span class="p">[</span><span class="mi">2</span><span class="p">]],</span> <span class="n">icon</span> <span class="o">=</span> <span class="n">folium</span><span class="o">.</span><span class="n">Icon</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">),</span> <span class="n">popup</span><span class="o">=</span><span class="s2">&quot;Collection&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">add_to</span><span class="p">(</span><span class="n">m_asa</span><span class="p">)</span>
+<span class="n">folium</span><span class="o">.</span><span class="n">Marker</span><span class="p">([</span><span class="n">drop2</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">drop2</span><span class="p">[</span><span class="mi">2</span><span class="p">]],</span> <span class="n">icon</span> <span class="o">=</span> <span class="n">folium</span><span class="o">.</span><span class="n">Icon</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s1">&#39;blue&#39;</span><span class="p">),</span> <span class="n">popup</span><span class="o">=</span><span class="n">drop2</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">.</span><span class="n">add_to</span><span class="p">(</span><span class="n">m_asa</span><span class="p">)</span>
 
 <span class="n">m_asa</span>
 </pre></div>
@@ -67982,9 +67941,7 @@ Initial Cost: 321.3632
 
 
 <div class="jp-OutputArea jp-Cell-outputArea">
-
-<div class="jp-OutputArea-child">
-
+<div class="jp-OutputArea-child jp-OutputArea-executeResult">
     
     <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[60]:</div>
 
@@ -69318,8 +69275,8 @@ Initial Cost: 321.3632
 <div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[45]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">asa_cost_result</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">'Experiment'</span><span class="p">:[</span><span class="s1">'ex1'</span><span class="p">,</span> <span class="s1">'ex2'</span><span class="p">,</span> <span class="s1">'ex3'</span><span class="p">],</span> <span class="s1">'Cost'</span><span class="p">:[</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">asa_result_best_cost_list</span><span class="p">]})</span>
-<span class="n">asa_cost_result</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s1">'Experiment'</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s1">'Cost'</span><span class="p">,</span> <span class="n">rot</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">asa_cost_result</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">&#39;Experiment&#39;</span><span class="p">:[</span><span class="s1">&#39;ex1&#39;</span><span class="p">,</span> <span class="s1">&#39;ex2&#39;</span><span class="p">,</span> <span class="s1">&#39;ex3&#39;</span><span class="p">],</span> <span class="s1">&#39;Cost&#39;</span><span class="p">:[</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">asa_result_best_cost_list</span><span class="p">]})</span>
+<span class="n">asa_cost_result</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s1">&#39;Experiment&#39;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s1">&#39;Cost&#39;</span><span class="p">,</span> <span class="n">rot</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 </pre></div>
 
      </div>
@@ -69333,9 +69290,7 @@ Initial Cost: 321.3632
 
 
 <div class="jp-OutputArea jp-Cell-outputArea">
-
-<div class="jp-OutputArea-child">
-
+<div class="jp-OutputArea-child jp-OutputArea-executeResult">
     
     <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[45]:</div>
 
@@ -69347,9 +69302,7 @@ Initial Cost: 321.3632
 </div>
 
 </div>
-
 <div class="jp-OutputArea-child">
-
     
     <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 
@@ -69377,8 +69330,8 @@ class="
 <div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[41]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">asa_time_result</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">'Experiment'</span><span class="p">:[</span><span class="s1">'ex1'</span><span class="p">,</span> <span class="s1">'ex2'</span><span class="p">,</span> <span class="s1">'ex3'</span><span class="p">],</span> <span class="s1">'Time'</span><span class="p">:[</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">asa_result_time_list</span><span class="p">]})</span>
-<span class="n">asa_time_result</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s1">'Experiment'</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s1">'Time'</span><span class="p">,</span> <span class="n">rot</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">asa_time_result</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">&#39;Experiment&#39;</span><span class="p">:[</span><span class="s1">&#39;ex1&#39;</span><span class="p">,</span> <span class="s1">&#39;ex2&#39;</span><span class="p">,</span> <span class="s1">&#39;ex3&#39;</span><span class="p">],</span> <span class="s1">&#39;Time&#39;</span><span class="p">:[</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">asa_result_time_list</span><span class="p">]})</span>
+<span class="n">asa_time_result</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s1">&#39;Experiment&#39;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s1">&#39;Time&#39;</span><span class="p">,</span> <span class="n">rot</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 </pre></div>
 
      </div>
@@ -69392,9 +69345,7 @@ class="
 
 
 <div class="jp-OutputArea jp-Cell-outputArea">
-
-<div class="jp-OutputArea-child">
-
+<div class="jp-OutputArea-child jp-OutputArea-executeResult">
     
     <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[41]:</div>
 
@@ -69406,9 +69357,7 @@ class="
 </div>
 
 </div>
-
 <div class="jp-OutputArea-child">
-
     
     <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 
@@ -69436,8 +69385,8 @@ class="
 <div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[42]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">"# iterations"</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">"Cost (sec)"</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;# iterations&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Cost (sec)&quot;</span><span class="p">)</span>
 
 <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">):</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">asa_result_best_state_list</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="n">color_map</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
@@ -69455,9 +69404,7 @@ class="
 
 
 <div class="jp-OutputArea jp-Cell-outputArea">
-
 <div class="jp-OutputArea-child">
-
     
     <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 
@@ -69512,9 +69459,7 @@ class="
 
 
 <div class="jp-OutputArea jp-Cell-outputArea">
-
-<div class="jp-OutputArea-child">
-
+<div class="jp-OutputArea-child jp-OutputArea-executeResult">
     
     <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[51]:</div>
 
@@ -69671,9 +69616,7 @@ class="
 
 
 <div class="jp-OutputArea jp-Cell-outputArea">
-
 <div class="jp-OutputArea-child">
-
     
     <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 
@@ -69702,8 +69645,8 @@ class="
 
 <span class="n">m_ga</span> <span class="o">=</span> <span class="n">osmnx</span><span class="o">.</span><span class="n">plot_route_folium</span><span class="p">(</span><span class="n">G</span><span class="o">=</span><span class="n">graph</span><span class="p">,</span><span class="n">route</span><span class="o">=</span><span class="n">route</span><span class="p">,</span> <span class="n">route_map</span><span class="o">=</span><span class="n">m_ga</span><span class="p">)</span>
 
-<span class="n">folium</span><span class="o">.</span><span class="n">Marker</span><span class="p">([</span><span class="n">collection</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">collection</span><span class="p">[</span><span class="mi">2</span><span class="p">]],</span> <span class="n">icon</span> <span class="o">=</span> <span class="n">folium</span><span class="o">.</span><span class="n">Icon</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s1">'red'</span><span class="p">),</span> <span class="n">popup</span><span class="o">=</span><span class="s2">"Collection"</span><span class="p">)</span><span class="o">.</span><span class="n">add_to</span><span class="p">(</span><span class="n">m_ga</span><span class="p">)</span>
-<span class="n">folium</span><span class="o">.</span><span class="n">Marker</span><span class="p">([</span><span class="n">drop2</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">drop2</span><span class="p">[</span><span class="mi">2</span><span class="p">]],</span> <span class="n">icon</span> <span class="o">=</span> <span class="n">folium</span><span class="o">.</span><span class="n">Icon</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s1">'blue'</span><span class="p">),</span> <span class="n">popup</span><span class="o">=</span><span class="n">drop2</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">.</span><span class="n">add_to</span><span class="p">(</span><span class="n">m_ga</span><span class="p">)</span>
+<span class="n">folium</span><span class="o">.</span><span class="n">Marker</span><span class="p">([</span><span class="n">collection</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">collection</span><span class="p">[</span><span class="mi">2</span><span class="p">]],</span> <span class="n">icon</span> <span class="o">=</span> <span class="n">folium</span><span class="o">.</span><span class="n">Icon</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">),</span> <span class="n">popup</span><span class="o">=</span><span class="s2">&quot;Collection&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">add_to</span><span class="p">(</span><span class="n">m_ga</span><span class="p">)</span>
+<span class="n">folium</span><span class="o">.</span><span class="n">Marker</span><span class="p">([</span><span class="n">drop2</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">drop2</span><span class="p">[</span><span class="mi">2</span><span class="p">]],</span> <span class="n">icon</span> <span class="o">=</span> <span class="n">folium</span><span class="o">.</span><span class="n">Icon</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s1">&#39;blue&#39;</span><span class="p">),</span> <span class="n">popup</span><span class="o">=</span><span class="n">drop2</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">.</span><span class="n">add_to</span><span class="p">(</span><span class="n">m_ga</span><span class="p">)</span>
 
 <span class="n">m_ga</span>
 </pre></div>
@@ -69719,9 +69662,7 @@ class="
 
 
 <div class="jp-OutputArea jp-Cell-outputArea">
-
-<div class="jp-OutputArea-child">
-
+<div class="jp-OutputArea-child jp-OutputArea-executeResult">
     
     <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[58]:</div>
 
@@ -70150,17 +70091,17 @@ class="
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">m_comp</span> <span class="o">=</span> <span class="n">folium</span><span class="o">.</span><span class="n">Map</span><span class="p">(</span><span class="n">location</span><span class="o">=</span><span class="p">[</span><span class="mf">43.66469344988004</span><span class="p">,</span> <span class="o">-</span><span class="mf">79.43064784625537</span><span class="p">],</span> <span class="n">zoom_start</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
 
-<span class="n">color_map</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'blue'</span><span class="p">,</span> <span class="s1">'red'</span><span class="p">,</span> <span class="s1">'green'</span><span class="p">]</span>
+<span class="n">color_map</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;blue&#39;</span><span class="p">,</span> <span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="s1">&#39;green&#39;</span><span class="p">]</span>
 
 <span class="c1"># Best result from SA</span>
-<span class="n">m_comp</span> <span class="o">=</span> <span class="n">osmnx</span><span class="o">.</span><span class="n">plot_route_folium</span><span class="p">(</span><span class="n">G</span><span class="o">=</span><span class="n">graph</span><span class="p">,</span><span class="n">route</span><span class="o">=</span><span class="n">sa_result_best_solution_list</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">route_map</span><span class="o">=</span><span class="n">m_comp</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">color_map</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">opacity</span><span class="o">=</span><span class="s2">"0.5"</span><span class="p">)</span>
+<span class="n">m_comp</span> <span class="o">=</span> <span class="n">osmnx</span><span class="o">.</span><span class="n">plot_route_folium</span><span class="p">(</span><span class="n">G</span><span class="o">=</span><span class="n">graph</span><span class="p">,</span><span class="n">route</span><span class="o">=</span><span class="n">sa_result_best_solution_list</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">route_map</span><span class="o">=</span><span class="n">m_comp</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">color_map</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">opacity</span><span class="o">=</span><span class="s2">&quot;0.5&quot;</span><span class="p">)</span>
 <span class="c1"># Best result from ASA</span>
-<span class="n">m_comp</span> <span class="o">=</span> <span class="n">osmnx</span><span class="o">.</span><span class="n">plot_route_folium</span><span class="p">(</span><span class="n">G</span><span class="o">=</span><span class="n">graph</span><span class="p">,</span><span class="n">route</span><span class="o">=</span><span class="n">asa_result_best_solution_list</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">route_map</span><span class="o">=</span><span class="n">m_comp</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">color_map</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">opacity</span><span class="o">=</span><span class="s2">"0.5"</span><span class="p">)</span>
+<span class="n">m_comp</span> <span class="o">=</span> <span class="n">osmnx</span><span class="o">.</span><span class="n">plot_route_folium</span><span class="p">(</span><span class="n">G</span><span class="o">=</span><span class="n">graph</span><span class="p">,</span><span class="n">route</span><span class="o">=</span><span class="n">asa_result_best_solution_list</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">route_map</span><span class="o">=</span><span class="n">m_comp</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">color_map</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">opacity</span><span class="o">=</span><span class="s2">&quot;0.5&quot;</span><span class="p">)</span>
 <span class="c1"># Result from GA</span>
-<span class="n">m_comp</span> <span class="o">=</span> <span class="n">osmnx</span><span class="o">.</span><span class="n">plot_route_folium</span><span class="p">(</span><span class="n">G</span><span class="o">=</span><span class="n">graph</span><span class="p">,</span><span class="n">route</span><span class="o">=</span><span class="n">route</span><span class="p">,</span> <span class="n">route_map</span><span class="o">=</span><span class="n">m_comp</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">color_map</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">opacity</span><span class="o">=</span><span class="s2">"0.5"</span><span class="p">)</span>
+<span class="n">m_comp</span> <span class="o">=</span> <span class="n">osmnx</span><span class="o">.</span><span class="n">plot_route_folium</span><span class="p">(</span><span class="n">G</span><span class="o">=</span><span class="n">graph</span><span class="p">,</span><span class="n">route</span><span class="o">=</span><span class="n">route</span><span class="p">,</span> <span class="n">route_map</span><span class="o">=</span><span class="n">m_comp</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">color_map</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">opacity</span><span class="o">=</span><span class="s2">&quot;0.5&quot;</span><span class="p">)</span>
 
-<span class="n">folium</span><span class="o">.</span><span class="n">Marker</span><span class="p">([</span><span class="n">collection</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">collection</span><span class="p">[</span><span class="mi">2</span><span class="p">]],</span> <span class="n">icon</span> <span class="o">=</span> <span class="n">folium</span><span class="o">.</span><span class="n">Icon</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s1">'red'</span><span class="p">),</span> <span class="n">popup</span><span class="o">=</span><span class="s2">"Collection"</span><span class="p">)</span><span class="o">.</span><span class="n">add_to</span><span class="p">(</span><span class="n">m_comp</span><span class="p">)</span>
-<span class="n">folium</span><span class="o">.</span><span class="n">Marker</span><span class="p">([</span><span class="n">drop2</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">drop2</span><span class="p">[</span><span class="mi">2</span><span class="p">]],</span> <span class="n">icon</span> <span class="o">=</span> <span class="n">folium</span><span class="o">.</span><span class="n">Icon</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s1">'blue'</span><span class="p">),</span> <span class="n">popup</span><span class="o">=</span><span class="n">drop2</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">.</span><span class="n">add_to</span><span class="p">(</span><span class="n">m_comp</span><span class="p">)</span>
+<span class="n">folium</span><span class="o">.</span><span class="n">Marker</span><span class="p">([</span><span class="n">collection</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">collection</span><span class="p">[</span><span class="mi">2</span><span class="p">]],</span> <span class="n">icon</span> <span class="o">=</span> <span class="n">folium</span><span class="o">.</span><span class="n">Icon</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">),</span> <span class="n">popup</span><span class="o">=</span><span class="s2">&quot;Collection&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">add_to</span><span class="p">(</span><span class="n">m_comp</span><span class="p">)</span>
+<span class="n">folium</span><span class="o">.</span><span class="n">Marker</span><span class="p">([</span><span class="n">drop2</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">drop2</span><span class="p">[</span><span class="mi">2</span><span class="p">]],</span> <span class="n">icon</span> <span class="o">=</span> <span class="n">folium</span><span class="o">.</span><span class="n">Icon</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s1">&#39;blue&#39;</span><span class="p">),</span> <span class="n">popup</span><span class="o">=</span><span class="n">drop2</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">.</span><span class="n">add_to</span><span class="p">(</span><span class="n">m_comp</span><span class="p">)</span>
 
 <span class="n">m_comp</span>
 </pre></div>
@@ -70176,9 +70117,7 @@ class="
 
 
 <div class="jp-OutputArea jp-Cell-outputArea">
-
-<div class="jp-OutputArea-child">
-
+<div class="jp-OutputArea-child jp-OutputArea-executeResult">
     
     <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[61]:</div>
 
@@ -71422,12 +71361,12 @@ class="
 <div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[62]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">best_cost_result</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">'Algo'</span><span class="p">:[</span><span class="s1">'SA'</span><span class="p">,</span> <span class="s1">'ASA'</span><span class="p">,</span> <span class="s1">'GA'</span><span class="p">],</span> <span class="s1">'Cost'</span><span class="p">:[</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">best_cost_result</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">&#39;Algo&#39;</span><span class="p">:[</span><span class="s1">&#39;SA&#39;</span><span class="p">,</span> <span class="s1">&#39;ASA&#39;</span><span class="p">,</span> <span class="s1">&#39;GA&#39;</span><span class="p">],</span> <span class="s1">&#39;Cost&#39;</span><span class="p">:[</span>
     <span class="n">sa_result_best_cost_list</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
     <span class="n">asa_result_best_cost_list</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
     <span class="n">cost</span><span class="p">(</span><span class="n">adjusted_g</span><span class="p">,</span> <span class="n">route</span><span class="p">)</span>
 <span class="p">]})</span>
-<span class="n">best_cost_result</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s1">'Algo'</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s1">'Cost'</span><span class="p">,</span> <span class="n">rot</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">best_cost_result</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s1">&#39;Algo&#39;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s1">&#39;Cost&#39;</span><span class="p">,</span> <span class="n">rot</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 </pre></div>
 
      </div>
@@ -71441,9 +71380,7 @@ class="
 
 
 <div class="jp-OutputArea jp-Cell-outputArea">
-
-<div class="jp-OutputArea-child">
-
+<div class="jp-OutputArea-child jp-OutputArea-executeResult">
     
     <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[62]:</div>
 
@@ -71455,9 +71392,7 @@ class="
 </div>
 
 </div>
-
 <div class="jp-OutputArea-child">
-
     
     <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 
@@ -71485,12 +71420,12 @@ class="
 <div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[64]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">"# iterations"</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">"Cost (sec)"</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;# iterations&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Cost (sec)&quot;</span><span class="p">)</span>
 
-<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">sa_result_best_state_list</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="n">color_map</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="s1">'SA'</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">asa_result_best_state_list</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="n">color_map</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="s1">'ASA'</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">states</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">color_map</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="s1">'GA'</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">sa_result_best_state_list</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="n">color_map</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;SA&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">asa_result_best_state_list</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="n">color_map</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;ASA&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">states</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">color_map</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;GA&#39;</span><span class="p">)</span>
 
 <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
@@ -71507,9 +71442,7 @@ class="
 
 
 <div class="jp-OutputArea jp-Cell-outputArea">
-
 <div class="jp-OutputArea-child">
-
     
     <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 
